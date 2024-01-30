@@ -1,11 +1,20 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
         HashMap<String, ArrayList<ArrayList<String>>> grammar = new HashMap<>();
         Scanner input = new Scanner(System.in);
         String line;
-
+        while (input.hasNextLine()) {
+            line=input.nextLine();
+            if (line.equals("")) {
+                break;
+            }
+            Map.Entry<String, ArrayList<String>> production = parseProduction(line);
+            grammar.computeIfAbsent(production.getKey(), k -> new ArrayList<>()).add(production.getValue());
+        }
+        printGrammar(grammar, "Parsed input grammar: ");
     }
 
     private static Map.Entry<String, ArrayList<String>> parseProduction(String line) {
@@ -17,4 +26,14 @@ public class Main {
         }
         return null;
     }
+
+     private static void printGrammar(HashMap<String, ArrayList<ArrayList<String>>> grammar, String heading) {
+     System.out.println(heading);
+     for (Map.Entry<String, ArrayList<ArrayList<String>>> entry : grammar.entrySet()) {
+         String rules = entry.getValue().stream()
+             .map(rule -> String.join(",", rule))
+             .collect(Collectors.joining(" | "));
+         System.out.println(entry.getKey() + " -> " + rules);
+     }
+ }
 }
