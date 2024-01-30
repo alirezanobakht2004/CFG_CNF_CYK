@@ -1,6 +1,8 @@
 import java.util.*;
 import java.util.stream.Collectors;
 
+import CFG_to_CNF_Converter.Converter;
+
 public class Main {
     public static void main(String[] args) {
         HashMap<String, ArrayList<ArrayList<String>>> grammar = new HashMap<>();
@@ -18,6 +20,8 @@ public class Main {
 
         Converter converter = new Converter(grammar);
         HashMap<String,ArrayList<ArrayList<String>>> cnfGrammar = converter.convertToCNF();
+
+        printGrammar(cnfGrammar, "Grammar in CNF:");
     }
 
     private static Map.Entry<String, ArrayList<String>> parseProduction(String line) {

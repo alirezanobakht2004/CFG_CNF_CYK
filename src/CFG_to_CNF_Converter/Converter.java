@@ -1,3 +1,4 @@
+package CFG_to_CNF_Converter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +11,7 @@ public class Converter {
 		this.grammar = grammar;
 	}
 	
-	HashMap<String,ArrayList<ArrayList<String>>> convertToCNF() {
+	public HashMap<String,ArrayList<ArrayList<String>>> convertToCNF() {
 		printGrammar(grammar, "\nInput grammar:");
 	    grammar = new NullProductElimination(grammar).eliminateNull();
 		printGrammar(grammar, "Null productions eliminated:");
