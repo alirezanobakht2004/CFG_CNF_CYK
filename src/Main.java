@@ -15,6 +15,9 @@ public class Main {
             grammar.computeIfAbsent(production.getKey(), k -> new ArrayList<>()).add(production.getValue());
         }
         printGrammar(grammar, "Parsed input grammar: ");
+
+        Converter converter = new Converter(grammar);
+        HashMap<String,ArrayList<ArrayList<String>>> cnfGrammar = converter.convertToCNF();
     }
 
     private static Map.Entry<String, ArrayList<String>> parseProduction(String line) {
