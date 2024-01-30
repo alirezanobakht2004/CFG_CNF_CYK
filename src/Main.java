@@ -2,6 +2,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import CFG_to_CNF_Converter.Converter;
+import CYK_Algorithm.CYK;
 
 public class Main {
     public static void main(String[] args) {
@@ -37,7 +38,10 @@ public class Main {
             Terminal_List.add(String.valueOf(c));
         }
         ArrayList<String> Non_Terminal_List = new ArrayList<>(cnfGrammar.keySet());
-        System.out.println();
+        System.out.println("\nEnter the word you want to check in Chomsky's Normal Grammar:");
+        Scanner input1 = new Scanner(System.in);
+        String word = input1.nextLine();
+        CYK cyk = new CYK(word, "S", Terminal_List, Non_Terminal_List, null);
     }
 
     private static Map.Entry<String, ArrayList<String>> parseProduction(String line) {

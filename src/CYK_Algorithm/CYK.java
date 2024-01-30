@@ -21,45 +21,8 @@ public class CYK {
     }
 
     public void doSteps(String[] args) {
-        parseGrammar(args);
         String[][] cykTable = createCYKTable();
         printResult(doCyk(cykTable));
-    }
-
-    public void parseGrammar(String[] args) {
-        Scanner input = openFile(args[0]);
-        ArrayList<String> tmp = new ArrayList<>();
-        int line = 2;
-
-        word = getWord(args);
-        startingSymbol = input.next();
-        input.nextLine();
-
-        while (input.hasNextLine() && line <= 3) {
-            tmp.addAll(Arrays.<String>asList(toArray(input.nextLine())));
-            if (line == 2) {
-                terminals.addAll(tmp);
-            }
-            if (line == 3) {
-                nonTerminals.addAll(tmp);
-            }
-            tmp.clear();
-            line++;
-        }
-
-        while (input.hasNextLine()) {
-            tmp.addAll(Arrays.<String>asList(toArray(input.nextLine())));
-            String leftSide = tmp.get(0);
-            tmp.remove(0);
-            grammar.put(leftSide, new ArrayList<String>());
-            grammar.get(leftSide).addAll(tmp);
-            tmp.clear();
-        }
-        input.close();
-    }
-
-    public static String getWord(String[] args) {
-        return args[1];
     }
 
     public void printResult(String[][] cykTable) {
@@ -80,7 +43,6 @@ public class CYK {
         String formatString = "| %-" + l + "s ";
         String s = "";
         StringBuilder sb = new StringBuilder();
-        // Building Table Structure Modules
         sb.append("+");
         for (int x = 0; x <= l + 2; x++) {
             if (x == l + 2) {
@@ -92,7 +54,6 @@ public class CYK {
         String low = sb.toString();
         sb.delete(0, 1);
         String lowRight = sb.toString();
-        // Print Table
         for (int i = 0; i < cykTable.length; i++) {
             for (int j = 0; j <= cykTable[i].length; j++) {
                 System.out.print((j == 0) ? low : (i <= 1 && j == cykTable[i].length - 1) ? "" : lowRight);
@@ -108,7 +69,6 @@ public class CYK {
             System.out.println();
         }
         System.out.println(low + "\n");
-        // Step 4: Evaluate success.
         if (cykTable[cykTable.length - 1][cykTable[cykTable.length - 1].length - 1].contains(startingSymbol)) {
             System.out.println("The word \"" + word + "\" is an element of the CFG G and can be derived from it.");
         } else {
@@ -145,11 +105,9 @@ public class CYK {
     }
 
     public String[][] doCyk(String[][] cykTable) {
-        // Step 1: Fill header row
         for (int i = 0; i < cykTable[0].length; i++) {
             cykTable[0][i] = manageWord(word, i);
         }
-        // Step 2: Get productions for terminals
         for (int i = 0; i < cykTable[1].length; i++) {
             String[] validCombinations = checkIfProduces(new String[] { cykTable[0][i] });
             cykTable[1][i] = toString(validCombinations);
@@ -157,7 +115,6 @@ public class CYK {
         if (word.length() <= 1) {
             return cykTable;
         }
-        // Step 3: Get productions for subwords with the length of 2
         for (int i = 0; i < cykTable[2].length; i++) {
             String[] downwards = toArray(cykTable[1][i]);
             String[] diagonal = toArray(cykTable[1][i + 1]);
@@ -167,7 +124,6 @@ public class CYK {
         if (word.length() <= 2) {
             return cykTable;
         }
-        // Step 3: Get productions for subwords with the length of n
         TreeSet<String> currentValues = new TreeSet<String>();
 
         for (int i = 3; i < cykTable.length; i++) {
