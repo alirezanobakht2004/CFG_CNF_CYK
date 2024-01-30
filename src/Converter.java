@@ -12,7 +12,7 @@ public class Converter {
 	
 	HashMap<String,ArrayList<ArrayList<String>>> convertToCNF() {
 		printGrammar(grammar, "\nInput grammar:");
-	    grammar = new NullProductionEliminator(grammar).eliminateNull();
+	    grammar = new NullProductElimination(grammar).eliminateNull();
 		printGrammar(grammar, "Null productions eliminated:");
 
 		grammar = new UnitProductionEliminator(grammar).eliminateUnit();
@@ -27,12 +27,10 @@ public class Converter {
 	}
 
 	private static void printGrammar(HashMap<String, ArrayList<ArrayList<String>>> grammar, String heading) {
-		if (verbose) {
 			System.out.print(heading + "\n");
 			for (Map.Entry<String, ArrayList<ArrayList<String>>> entry : grammar.entrySet()) {
 				System.out.println(entry.getKey() + " -> " + entry.getValue());
 			}
 			System.out.print("\n\n");
-		}
 	}
 }
