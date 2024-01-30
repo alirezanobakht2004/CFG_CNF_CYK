@@ -9,7 +9,7 @@ public class Main {
         Scanner input = new Scanner(System.in);
         String line;
         while (input.hasNextLine()) {
-            line=input.nextLine();
+            line = input.nextLine();
             if (line.equals("")) {
                 break;
             }
@@ -17,11 +17,27 @@ public class Main {
             grammar.computeIfAbsent(production.getKey(), k -> new ArrayList<>()).add(production.getValue());
         }
         printGrammar(grammar, "Parsed input grammar: ");
-
         Converter converter = new Converter(grammar);
-        HashMap<String,ArrayList<ArrayList<String>>> cnfGrammar = converter.convertToCNF();
-
+        HashMap<String, ArrayList<ArrayList<String>>> cnfGrammar = converter.convertToCNF();
         printGrammar(cnfGrammar, "Grammar in CNF:");
+        HashSet<Character> Terminals_Set = new HashSet<Character>();
+        for (ArrayList<ArrayList<String>> value : cnfGrammar.values()) {
+            for (ArrayList<String> innerList : value) {
+                for (String str : innerList) {
+                    for (char c : str.toCharArray()) {
+                        if (Character.isLowerCase(c)) {
+                            Terminals_Set.add(c);
+                        }
+                    }
+                }
+            }
+        }
+        ArrayList<String> Terminal_List = new ArrayList<String>();
+        for (char c : Terminals_Set) {
+            Terminal_List.add(String.valueOf(c));
+        }
+        ArrayList<String> Non_Terminal_List = new ArrayList<>(cnfGrammar.keySet());
+        System.out.println();
     }
 
     private static Map.Entry<String, ArrayList<String>> parseProduction(String line) {
@@ -34,13 +50,13 @@ public class Main {
         return null;
     }
 
-     private static void printGrammar(HashMap<String, ArrayList<ArrayList<String>>> grammar, String heading) {
-     System.out.println(heading);
-     for (Map.Entry<String, ArrayList<ArrayList<String>>> entry : grammar.entrySet()) {
-         String rules = entry.getValue().stream()
-             .map(rule -> String.join(",", rule))
-             .collect(Collectors.joining(" | "));
-         System.out.println(entry.getKey() + " -> " + rules);
-     }
- }
+    private static void printGrammar(HashMap<String, ArrayList<ArrayList<String>>> grammar, String heading) {
+        System.out.println(heading);
+        for (Map.Entry<String, ArrayList<ArrayList<String>>> entry : grammar.entrySet()) {
+            String rules = entry.getValue().stream()
+                    .map(rule -> String.join(",", rule))
+                    .collect(Collectors.joining(" | "));
+            System.out.println(entry.getKey() + " -> " + rules);
+        }
+    }
 }
