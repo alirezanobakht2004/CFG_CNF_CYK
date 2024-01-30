@@ -5,28 +5,28 @@ import java.util.*;
 
 public class CYK {
 
-    public static String word;
-    public static String startingSymbol;
-    public static ArrayList<String> terminals = new ArrayList<String>();
-    public static ArrayList<String> nonTerminals = new ArrayList<String>();
-    public static TreeMap<String, ArrayList<String>> grammar = new TreeMap<>();
+    private String word;
+    private String startingSymbol;
+    private ArrayList<String> terminals = new ArrayList<String>();
+    private ArrayList<String> nonTerminals = new ArrayList<String>();
+    private TreeMap<String, ArrayList<String>> grammar = new TreeMap<>();
 
-    
-    public static void main(String[] args) {
-        if (args.length < 2) {
-            System.out.println("Usage: java CYK <File> <Word>.");
-            System.exit(1);
-        }
-        doSteps(args);
+    public CYK(String word, String startingSymbol, ArrayList<String> terminals, ArrayList<String> nonTerminals,
+            TreeMap<String, ArrayList<String>> grammar) {
+        this.word = word;
+        this.startingSymbol = startingSymbol;
+        this.terminals = terminals;
+        this.nonTerminals = nonTerminals;
+        this.grammar = grammar;
     }
 
-    public static void doSteps(String[] args) {
+    public void doSteps(String[] args) {
         parseGrammar(args);
         String[][] cykTable = createCYKTable();
         printResult(doCyk(cykTable));
     }
 
-    public static void parseGrammar(String[] args) {
+    public void parseGrammar(String[] args) {
         Scanner input = openFile(args[0]);
         ArrayList<String> tmp = new ArrayList<>();
         int line = 2;
@@ -62,7 +62,7 @@ public class CYK {
         return args[1];
     }
 
-    public static void printResult(String[][] cykTable) {
+    public void printResult(String[][] cykTable) {
         System.out.println("Word: " + word);
         System.out.println("\nG = (" + terminals.toString().replace("[", "{").replace("]", "}")
                 + ", " + nonTerminals.toString().replace("[", "{").replace("]", "}")
@@ -75,7 +75,7 @@ public class CYK {
         drawTable(cykTable);
     }
 
-    public static void drawTable(String[][] cykTable) {
+    public void drawTable(String[][] cykTable) {
         int l = findLongestString(cykTable) + 2;
         String formatString = "| %-" + l + "s ";
         String s = "";
@@ -129,7 +129,7 @@ public class CYK {
         return x;
     }
 
-    public static String[][] createCYKTable() {
+    public String[][] createCYKTable() {
         int length = word.length();
         String[][] cykTable = new String[length + 1][];
         cykTable[0] = new String[length];
@@ -144,7 +144,7 @@ public class CYK {
         return cykTable;
     }
 
-    public static String[][] doCyk(String[][] cykTable) {
+    public String[][] doCyk(String[][] cykTable) {
         // Step 1: Fill header row
         for (int i = 0; i < cykTable[0].length; i++) {
             cykTable[0][i] = manageWord(word, i);
@@ -198,7 +198,7 @@ public class CYK {
 
     }
 
-    public static String[] checkIfProduces(String[] toCheck) {
+    public String[] checkIfProduces(String[] toCheck) {
         ArrayList<String> storage = new ArrayList<>();
         for (String s : grammar.keySet()) {
             for (String current : toCheck) {
