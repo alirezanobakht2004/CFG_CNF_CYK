@@ -15,7 +15,7 @@ public class Converter {
 	    grammar = new NullProductElimination(grammar).eliminateNull();
 		printGrammar(grammar, "Null productions eliminated:");
 
-		grammar = new UnitProductionEliminator(grammar).eliminateUnit();
+		grammar = new UnitProductionElimination(grammar).eliminateUnit();
 		printGrammar(grammar, "Unit productions eliminated:");
 
 		grammar = new BinaryProductionConverter(grammar).convertBinary();
