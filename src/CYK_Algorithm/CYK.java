@@ -194,13 +194,4 @@ public class CYK {
         return input.split("\\s");
     }
 
-    public static Scanner openFile(String file) {
-        try {
-            return new Scanner(new File(file));
-        } catch (FileNotFoundException e) {
-            System.out.println("Error: Can't find or open the file: " + file + ".");
-            System.exit(1);
-            return null;
-        }
-    }
 }

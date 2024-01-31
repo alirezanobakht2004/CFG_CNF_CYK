@@ -42,6 +42,7 @@ public class Main {
         Scanner input1 = new Scanner(System.in);
         String word = input1.nextLine();
         CYK cyk = new CYK(word, "S", Terminal_List, Non_Terminal_List, null);
+
     }
 
     private static Map.Entry<String, ArrayList<String>> parseProduction(String line) {
@@ -62,5 +63,11 @@ public class Main {
                     .collect(Collectors.joining(" | "));
             System.out.println(entry.getKey() + " -> " + rules);
         }
+    }
+
+    private static TreeMap<String, ArrayList<String>> changeVars(HashMap<String, ArrayList<ArrayList<String>>> grammar){
+        TreeMap<String, ArrayList<String>> finalCNF  = new TreeMap<>();
+        
+        return finalCNF;
     }
 }
