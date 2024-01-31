@@ -1,6 +1,5 @@
 import java.util.*;
 import java.util.stream.Collectors;
-
 import CFG_to_CNF_Converter.Converter;
 import CYK_Algorithm.CYK;
 
