@@ -14,9 +14,8 @@ public class Main {
             if (line.equals("")) {
                 break;
             }
-            String[] p = splittingInputs(line);
-            for (int i = 0; i < p.length; i++) {
-                Map.Entry<String, ArrayList<String>> production = parseProduction(p[i]);
+            for (int i = 0; i < splittingInputs(line).length; i++) {
+                Map.Entry<String, ArrayList<String>> production = parseProduction(splittingInputs(line)[i]);
                 grammar.computeIfAbsent(production.getKey(), k -> new ArrayList<>()).add(production.getValue());
             }
         }
@@ -63,6 +62,11 @@ public class Main {
             StringBuilder output = new StringBuilder();
             for (int i = 0; i < res[j].length(); i++) {
                 char currentChar = res[j].charAt(i);
+                if(currentChar=='l' && i + 1 < res[j].length() && res[j].charAt(i + 1)=='a'){
+                    i=i+5;
+                    output.append("lambda");
+                    continue;
+                }
                 output.append(currentChar);
                 if (i + 1 < res[j].length()) {
                     char nextChar = res[j].charAt(i + 1);
