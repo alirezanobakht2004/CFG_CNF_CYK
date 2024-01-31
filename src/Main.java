@@ -14,8 +14,11 @@ public class Main {
             if (line.equals("")) {
                 break;
             }
-            Map.Entry<String, ArrayList<String>> production = parseProduction(line);
-            grammar.computeIfAbsent(production.getKey(), k -> new ArrayList<>()).add(production.getValue());
+            String[] p = splittingInputs(line);
+            for (int i = 0; i < p.length; i++) {
+                Map.Entry<String, ArrayList<String>> production = parseProduction(p[i]);
+                grammar.computeIfAbsent(production.getKey(), k -> new ArrayList<>()).add(production.getValue());
+            }
         }
         printGrammar(grammar, "Parsed input grammar: ");
         Converter converter = new Converter(grammar);
@@ -44,8 +47,33 @@ public class Main {
         System.out.println("\nEnter the word you want to check in Chomsky's Normal Grammar:");
         Scanner input1 = new Scanner(System.in);
         String word = input1.nextLine();
-        CYK cyk = new CYK(word, "S", Terminal_List, Non_Terminal_List,cykInputGrammar(cnfGrammar) );
+        CYK cyk = new CYK(word, "S", Terminal_List, Non_Terminal_List, cykInputGrammar(cnfGrammar));
         cyk.doSteps();
+    }
+
+    private static String[] splittingInputs(String input) {
+        String[] parts = input.split("\\|");
+        String[] res = new String[parts.length];
+        res[0] = parts[0];
+        for (int i = 1; i < parts.length; i++) {
+            String sub = parts[0].substring(0, 4) + " " + parts[i];
+            res[i] = sub;
+        }
+        for (int j = 0; j < res.length; j++) {
+            StringBuilder output = new StringBuilder();
+            for (int i = 0; i < res[j].length(); i++) {
+                char currentChar = res[j].charAt(i);
+                output.append(currentChar);
+                if (i + 1 < res[j].length()) {
+                    char nextChar = res[j].charAt(i + 1);
+                    if (Character.isLetter(currentChar) && Character.isLetter(nextChar)) {
+                        output.append(",");
+                    }
+                }
+            }
+            res[j]=output.toString();
+        }
+        return res;
     }
 
     private static Map.Entry<String, ArrayList<String>> parseProduction(String line) {
@@ -94,7 +122,7 @@ public class Main {
             }
         }
     }
-    
+
     private static String generateNewKey_NT(Set<String> keys) {
         String newKey = "";
         for (char c = 'A'; c <= 'Z'; c++) {
@@ -121,15 +149,15 @@ public class Main {
                         }
                         usedChars.add(newChar);
                         innerList.set(j, newChar);
-                        System.out.println("\nTerminal: "+ current +" becomes: "+ newChar);
+                        System.out.println("\nTerminal: " + current + " becomes: " + newChar);
                     }
                 }
             }
         }
     }
-    
 
-    private static TreeMap<String, ArrayList<String>> cykInputGrammar(HashMap<String, ArrayList<ArrayList<String>>> cnfGrammar){
+    private static TreeMap<String, ArrayList<String>> cykInputGrammar(
+            HashMap<String, ArrayList<ArrayList<String>>> cnfGrammar) {
         TreeMap<String, ArrayList<String>> grammar = new TreeMap<>();
         for (String key : cnfGrammar.keySet()) {
             ArrayList<ArrayList<String>> value = cnfGrammar.get(key);
