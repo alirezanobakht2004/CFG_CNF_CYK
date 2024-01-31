@@ -21,7 +21,8 @@ public class Main {
         Converter converter = new Converter(grammar);
         HashMap<String, ArrayList<ArrayList<String>>> cnfGrammar = converter.convertToCNF();
         printGrammar(cnfGrammar, "Grammar in CNF:");
-        changeVars(cnfGrammar);
+        change_NT_Vars(cnfGrammar);
+        change_T_Vars(cnfGrammar);
         printGrammar(cnfGrammar, "\nGrammar with modified variables:");
         HashSet<Character> Terminals_Set = new HashSet<Character>();
         for (ArrayList<ArrayList<String>> value : cnfGrammar.values()) {
@@ -67,16 +68,17 @@ public class Main {
         }
     }
 
-    private static void changeVars(HashMap<String, ArrayList<ArrayList<String>>> cnfGrammar) {
+    private static void change_NT_Vars(HashMap<String, ArrayList<ArrayList<String>>> cnfGrammar) {
         ArrayList<String> keys = new ArrayList<>(cnfGrammar.keySet());
         ArrayList<String> newKeys = new ArrayList<>();
         ArrayList<String> oldKeys = new ArrayList<>();
         for (String key : keys) {
             if (key.matches("[A-Z]\\d+")) {
-                String newKey = generateNewKey(cnfGrammar.keySet());
+                String newKey = generateNewKey_NT(cnfGrammar.keySet());
                 newKeys.add(newKey);
                 oldKeys.add(key);
                 cnfGrammar.put(newKey, cnfGrammar.remove(key));
+                System.out.println("\nNon-Terminal-Variable: " + key + " becomes: " + newKey);
             }
         }
         for (String key : cnfGrammar.keySet()) {
@@ -93,7 +95,7 @@ public class Main {
         }
     }
     
-    private static String generateNewKey(Set<String> keys) {
+    private static String generateNewKey_NT(Set<String> keys) {
         String newKey = "";
         for (char c = 'A'; c <= 'Z'; c++) {
             if (!keys.contains(Character.toString(c))) {
@@ -103,6 +105,29 @@ public class Main {
         }
         return newKey;
     }
+
+    private static void change_T_Vars(HashMap<String, ArrayList<ArrayList<String>>> cnfGrammar) {
+        HashSet<String> usedChars = new HashSet<>();
+        for (String key : cnfGrammar.keySet()) {
+            ArrayList<ArrayList<String>> value = cnfGrammar.get(key);
+            for (int i = 0; i < value.size(); i++) {
+                ArrayList<String> innerList = value.get(i);
+                for (int j = 0; j < innerList.size(); j++) {
+                    String current = innerList.get(j);
+                    if (current.matches("[a-z]\\d+")) {
+                        String newChar = "a";
+                        while (usedChars.contains(newChar)) {
+                            newChar = Character.toString((char) (newChar.charAt(0) + 3));
+                        }
+                        usedChars.add(newChar);
+                        innerList.set(j, newChar);
+                        System.out.println("\nTerminal: "+ current +" becomes: "+ newChar);
+                    }
+                }
+            }
+        }
+    }
+    
 
     private static TreeMap<String, ArrayList<String>> cykInputGrammar(HashMap<String, ArrayList<ArrayList<String>>> cnfGrammar){
         TreeMap<String, ArrayList<String>> grammar = new TreeMap<>();
