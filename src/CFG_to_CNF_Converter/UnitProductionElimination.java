@@ -16,7 +16,7 @@ public class UnitProductionElimination {
 
 	private void getUnitsFromRhs(String lhs, HashSet<String> unitSet) {
 		for (ArrayList<String> rhs : grammar.get(lhs)) {
-			if (rhs.size() == 1 && Character.isUpperCase(rhs.get(0).charAt(0)) && rhs.get(0).length()!=2) {
+			if (rhs.size() == 1 && Character.isUpperCase(rhs.get(0).charAt(0))) {
 				unitSet.add(rhs.get(0));
 			}
 		}
@@ -25,7 +25,7 @@ public class UnitProductionElimination {
 	private ArrayList<ArrayList<String>> getNonUnits(String lhs) {
 		ArrayList<ArrayList<String>> nonUnits = new ArrayList<>();
 		for (ArrayList<String> rhs : grammar.get(lhs)) {
-			if (rhs.size() > 1 || (rhs.size() == 1 && Character.isUpperCase(rhs.get(0).charAt(0)) && rhs.get(0).length()!=2)) {
+			if (rhs.size() > 1) {
 				nonUnits.add(rhs);
 			}
 		}
@@ -60,7 +60,7 @@ public class UnitProductionElimination {
 		for (String lhs : grammar.keySet()) {
 			ArrayList<ArrayList<String>> newRhs = new ArrayList<>();
 			for (ArrayList<String> rhs : grammar.get(lhs)) {
-				if (rhs.size() > 1 || Character.isLowerCase(rhs.get(0).charAt(0)) || (rhs.size() == 1 && Character.isUpperCase(rhs.get(0).charAt(0)) && rhs.get(0).length()==2)) {
+				if (rhs.size() > 1 || Character.isLowerCase(rhs.get(0).charAt(0))) {
 					newRhs.add(rhs);
 				}
 			}
