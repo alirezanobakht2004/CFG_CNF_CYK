@@ -21,6 +21,8 @@ public class Main {
         Converter converter = new Converter(grammar);
         HashMap<String, ArrayList<ArrayList<String>>> cnfGrammar = converter.convertToCNF();
         printGrammar(cnfGrammar, "Grammar in CNF:");
+        changeVars(cnfGrammar);
+        printGrammar(cnfGrammar, "\nGrammar with modified variables:");
         HashSet<Character> Terminals_Set = new HashSet<Character>();
         for (ArrayList<ArrayList<String>> value : cnfGrammar.values()) {
             for (ArrayList<String> innerList : value) {
@@ -65,9 +67,40 @@ public class Main {
         }
     }
 
-    private static TreeMap<String, ArrayList<String>> changeVars(HashMap<String, ArrayList<ArrayList<String>>> grammar){
-        TreeMap<String, ArrayList<String>> finalCNF  = new TreeMap<>();
-        
-        return finalCNF;
+    private static void changeVars(HashMap<String, ArrayList<ArrayList<String>>> cnfGrammar) {
+        ArrayList<String> keys = new ArrayList<>(cnfGrammar.keySet());
+        ArrayList<String> newKeys = new ArrayList<>();
+        ArrayList<String> oldKeys = new ArrayList<>();
+        for (String key : keys) {
+            if (key.matches("[A-Z]\\d+")) {
+                String newKey = generateNewKey(cnfGrammar.keySet());
+                newKeys.add(newKey);
+                oldKeys.add(key);
+                cnfGrammar.put(newKey, cnfGrammar.remove(key));
+            }
+        }
+        for (String key : cnfGrammar.keySet()) {
+            ArrayList<ArrayList<String>> values = cnfGrammar.get(key);
+            for (ArrayList<String> value : values) {
+                for (int i = 0; i < value.size(); i++) {
+                    String s = value.get(i);
+                    if (oldKeys.contains(s)) {
+                        int index = oldKeys.indexOf(s);
+                        value.set(i, newKeys.get(index));
+                    }
+                }
+            }
+        }
+    }
+    
+    private static String generateNewKey(Set<String> keys) {
+        String newKey = "";
+        for (char c = 'A'; c <= 'Z'; c++) {
+            if (!keys.contains(Character.toString(c))) {
+                newKey = Character.toString(c);
+                break;
+            }
+        }
+        return newKey;
     }
 }
