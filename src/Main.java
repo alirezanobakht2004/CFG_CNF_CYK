@@ -43,8 +43,8 @@ public class Main {
         System.out.println("\nEnter the word you want to check in Chomsky's Normal Grammar:");
         Scanner input1 = new Scanner(System.in);
         String word = input1.nextLine();
-        CYK cyk = new CYK(word, "S", Terminal_List, Non_Terminal_List, null);
-
+        CYK cyk = new CYK(word, "S", Terminal_List, Non_Terminal_List,cykInputGrammar(cnfGrammar) );
+        cyk.doSteps();
     }
 
     private static Map.Entry<String, ArrayList<String>> parseProduction(String line) {
@@ -102,5 +102,22 @@ public class Main {
             }
         }
         return newKey;
+    }
+
+    private static TreeMap<String, ArrayList<String>> cykInputGrammar(HashMap<String, ArrayList<ArrayList<String>>> cnfGrammar){
+        TreeMap<String, ArrayList<String>> grammar = new TreeMap<>();
+        for (String key : cnfGrammar.keySet()) {
+            ArrayList<ArrayList<String>> value = cnfGrammar.get(key);
+            ArrayList<String> newValue = new ArrayList<>();
+            for (ArrayList<String> list : value) {
+                StringBuilder sb = new StringBuilder();
+                for (String s : list) {
+                    sb.append(s);
+                }
+                newValue.add(sb.toString());
+            }
+            grammar.put(key, newValue);
+        }
+        return grammar;
     }
 }

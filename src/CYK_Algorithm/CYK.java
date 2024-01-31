@@ -1,6 +1,4 @@
 package CYK_Algorithm;
-
-import java.io.*;
 import java.util.*;
 
 public class CYK {
@@ -20,7 +18,7 @@ public class CYK {
         this.grammar = grammar;
     }
 
-    public void doSteps(String[] args) {
+    public void doSteps() {
         String[][] cykTable = createCYKTable();
         printResult(doCyk(cykTable));
     }
