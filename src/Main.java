@@ -7,9 +7,9 @@ public class Main {
     public static void main(String[] args) {
         HashMap<String, ArrayList<ArrayList<String>>> grammar = new HashMap<>();
         Scanner input = new Scanner(System.in);
-        System.out.println("\033[1;96m"+"Enter the string you want to check for production:"+"\033[0m");
+        System.out.println("\033[1;93m" + "Enter the string you want to check for production:" + "\033[0m");
         String word = input.nextLine();
-        System.out.println("\033[1;93m"+"Enter your Context-Free-Grammar:"+"\033[0m");
+        System.out.println("\033[1;96m" + "Enter your Context-Free-Grammar:" + "\033[0m");
         String line;
         while (input.hasNextLine()) {
             line = input.nextLine();
@@ -21,13 +21,13 @@ public class Main {
                 grammar.computeIfAbsent(production.getKey(), k -> new ArrayList<>()).add(production.getValue());
             }
         }
-        printGrammar(grammar, "\033[1;33m"+"Parsed input grammar: "+"\033[0m");
+        printGrammar(grammar, "\033[1;95m" + "Parsed input grammar: " + "\033[0m");
         Converter converter = new Converter(grammar);
         HashMap<String, ArrayList<ArrayList<String>>> cnfGrammar = converter.convertToCNF();
-        printGrammar(cnfGrammar, "Grammar in CNF:");
+        printGrammar(cnfGrammar, "\033[1;92m" + "Grammar in CNF:" + "\033[0m");
         change_NT_Vars(cnfGrammar);
         change_T_Vars(cnfGrammar);
-        printGrammar(cnfGrammar, "\nGrammar with modified variables:");
+        printGrammar(cnfGrammar, "\n" + "\033[1;95m" + "Grammar with modified variables:" + "\033[0m");
         HashSet<Character> Terminals_Set = new HashSet<Character>();
         for (ArrayList<ArrayList<String>> value : cnfGrammar.values()) {
             for (ArrayList<String> innerList : value) {
@@ -45,7 +45,6 @@ public class Main {
             Terminal_List.add(String.valueOf(c));
         }
         ArrayList<String> Non_Terminal_List = new ArrayList<>(cnfGrammar.keySet());
-        System.out.println("\nEnter the word you want to check in Chomsky's Normal Grammar:");
         CYK cyk = new CYK(word, "S", Terminal_List, Non_Terminal_List, cykInputGrammar(cnfGrammar));
         cyk.doSteps();
     }
@@ -62,8 +61,8 @@ public class Main {
             StringBuilder output = new StringBuilder();
             for (int i = 0; i < res[j].length(); i++) {
                 char currentChar = res[j].charAt(i);
-                if(currentChar=='l' && i + 1 < res[j].length() && res[j].charAt(i + 1)=='a'){
-                    i=i+5;
+                if (currentChar == 'l' && i + 1 < res[j].length() && res[j].charAt(i + 1) == 'a') {
+                    i = i + 5;
                     output.append("lambda");
                     continue;
                 }
@@ -75,7 +74,7 @@ public class Main {
                     }
                 }
             }
-            res[j]=output.toString();
+            res[j] = output.toString();
         }
         return res;
     }
@@ -110,7 +109,8 @@ public class Main {
                 newKeys.add(newKey);
                 oldKeys.add(key);
                 cnfGrammar.put(newKey, cnfGrammar.remove(key));
-                System.out.println("\nNon-Terminal-Variable: " + key + " becomes: " + newKey);
+                System.out.println("\nNon-Terminal-Variable: " + "\033[1;93m" + key + "\033[0m" + " becomes: "
+                        + "\033[1;93m" + newKey + "\033[0m");
             }
         }
         for (String key : cnfGrammar.keySet()) {
@@ -153,7 +153,8 @@ public class Main {
                         }
                         usedChars.add(newChar);
                         innerList.set(j, newChar);
-                        System.out.println("\nTerminal: " + current + " becomes: " + newChar);
+                        System.out.println("\nTerminal: " + "\033[1;93m" + current + "\033[0m" + " becomes: "
+                                + "\033[1;93m" + newChar + "\033[0m");
                     }
                 }
             }

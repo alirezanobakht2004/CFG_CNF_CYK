@@ -12,18 +12,18 @@ public class Converter {
 	}
 	
 	public HashMap<String,ArrayList<ArrayList<String>>> convertToCNF() {
-		printGrammar(grammar, "\nInput grammar:");
+		printGrammar(grammar, "\n"+"\033[1;93m"+"Input grammar:"+"\033[0m");
 	    grammar = new NullProductElimination(grammar).eliminateNull();
-		printGrammar(grammar, "Null productions eliminated:");
+		printGrammar(grammar, "\033[1;93m"+"Null productions eliminated:"+"\033[0m");
 
 		grammar = new UnitProductionElimination(grammar).eliminateUnit();
-		printGrammar(grammar, "Unit productions eliminated:");
+		printGrammar(grammar, "\033[1;93m"+"Unit productions eliminated:"+"\033[0m");
 
 		grammar = new BinaryProductionConverter(grammar).convertBinary();
-		printGrammar(grammar, "Break up productions longer than two symbols:");
+		printGrammar(grammar, "\033[1;93m"+"Break up productions longer than two symbols:"+"\033[0m");
 		
 		grammar = new SingleTerminalConverter(grammar).convertTerminal();
-		printGrammar(grammar, "Make a dedicated production for each terminal:");
+		printGrammar(grammar, "\033[1;93m"+"Make a dedicated production for each terminal:"+"\033[0m");
 		return grammar;
 	}
 

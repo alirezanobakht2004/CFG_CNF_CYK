@@ -1,4 +1,5 @@
 package CYK_Algorithm;
+
 import java.util.*;
 
 public class CYK {
@@ -24,15 +25,15 @@ public class CYK {
     }
 
     public void printResult(String[][] cykTable) {
-        System.out.println("Word: " + word);
+        System.out.println("\nWord: " + "\033[1;96m" + word + "\033[0m");
         System.out.println("\nG = (" + terminals.toString().replace("[", "{").replace("]", "}")
                 + ", " + nonTerminals.toString().replace("[", "{").replace("]", "}")
-                + ", P, " + startingSymbol + ")\n\nWith Productions P as:");
+                + ", P, " + startingSymbol + ")\n\n"+"\033[1;92m"+"With Productions P as:"+"\033[0m");
         for (String s : grammar.keySet()) {
             System.out.println(
                     s + " -> " + grammar.get(s).toString().replaceAll("[\\[\\]\\,]", "").replaceAll("\\s", " | "));
         }
-        System.out.println("\nApplying CYK-Algorithm:\n");
+        System.out.println("\n" + "\033[1;92m" + "Applying CYK-Algorithm:" + "\033[0m" + "\n");
         drawTable(cykTable);
     }
 
@@ -68,10 +69,12 @@ public class CYK {
         }
         System.out.println(low + "\n");
         if (cykTable[cykTable.length - 1][cykTable[cykTable.length - 1].length - 1].contains(startingSymbol)) {
-            System.out.println("The word \"" + word + "\" is an element of the CFG G and can be derived from it.");
+            System.out.println("The word \"" + "\033[1;96m" + word + "\033[0m"
+                    + "\" is an element of the CFG G and can be derived from it.\n");
         } else {
             System.out.println(
-                    "The word \"" + word + "\" is not an element of the CFG G and can not be derived from it.");
+                    "The word \"" + "\033[1;96m" + word + "\033[0m"
+                            + "\" is not an element of the CFG G and can not be derived from it.\n");
         }
     }
 
