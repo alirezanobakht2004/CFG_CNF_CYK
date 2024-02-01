@@ -1,13 +1,16 @@
 package CFG_to_CNF_Converter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
 public class UnitProductionElimination {
-    private HashMap<String, ArrayList<ArrayList<String>>> grammar;
-    public UnitProductionElimination(HashMap<String, ArrayList<ArrayList<String>>> grammar) {
-        this.grammar = grammar;
-    }
+	private HashMap<String, ArrayList<ArrayList<String>>> grammar;
+
+	public UnitProductionElimination(HashMap<String, ArrayList<ArrayList<String>>> grammar) {
+		this.grammar = grammar;
+	}
+
 	private void addUnitsToSet(HashSet<String> unitSet) {
 		for (String lhs : unitSet) {
 			getUnitsFromRhs(lhs, unitSet);
@@ -69,6 +72,6 @@ public class UnitProductionElimination {
 			}
 		}
 
-        return newGrammar;
+		return newGrammar;
 	}
 }

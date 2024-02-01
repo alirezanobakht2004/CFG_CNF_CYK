@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         HashMap<String, ArrayList<ArrayList<String>>> grammar = new HashMap<>();
         Scanner input = new Scanner(System.in);
-        System.out.println("\033[1;93m" + "Enter the string you want to check for production:" + "\033[0m");
+        System.out.println("\n" + "\033[1;92m" + "Enter the string you want to check for production:" + "\033[0m");
         String word = input.nextLine();
         System.out.println("\033[1;96m" + "Enter your Context-Free-Grammar:" + "\033[0m");
         String line;

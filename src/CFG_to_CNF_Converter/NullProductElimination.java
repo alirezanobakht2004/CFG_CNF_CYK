@@ -1,10 +1,11 @@
 package CFG_to_CNF_Converter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
 public class NullProductElimination {
-    
+
     private HashMap<String, ArrayList<ArrayList<String>>> grammar;
 
     public NullProductElimination(HashMap<String, ArrayList<ArrayList<String>>> grammar) {

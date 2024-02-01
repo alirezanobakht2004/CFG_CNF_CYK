@@ -28,7 +28,7 @@ public class CYK {
         System.out.println("\nWord: " + "\033[1;96m" + word + "\033[0m");
         System.out.println("\nG = (" + terminals.toString().replace("[", "{").replace("]", "}")
                 + ", " + nonTerminals.toString().replace("[", "{").replace("]", "}")
-                + ", P, " + startingSymbol + ")\n\n"+"\033[1;92m"+"With Productions P as:"+"\033[0m");
+                + ", P, " + startingSymbol + ")\n\n" + "\033[1;92m" + "With Productions P as:" + "\033[0m");
         for (String s : grammar.keySet()) {
             System.out.println(
                     s + " -> " + grammar.get(s).toString().replaceAll("[\\[\\]\\,]", "").replaceAll("\\s", " | "));

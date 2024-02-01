@@ -1,20 +1,21 @@
 package CFG_to_CNF_Converter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BinaryProductionConverter {
-    private HashMap<String, ArrayList<ArrayList<String>>> grammar;
+	private HashMap<String, ArrayList<ArrayList<String>>> grammar;
 
-    public BinaryProductionConverter(HashMap<String, ArrayList<ArrayList<String>>> grammar) {
-        this.grammar = grammar;
-    }
+	public BinaryProductionConverter(HashMap<String, ArrayList<ArrayList<String>>> grammar) {
+		this.grammar = grammar;
+	}
 
 	public HashMap<String, ArrayList<ArrayList<String>>> convertBinary() {
 		HashMap<String, ArrayList<ArrayList<String>>> newGrammar = new HashMap<>();
 		for (String lhs : grammar.keySet()) {
-	
+
 			for (ArrayList<String> rhs : grammar.get(lhs)) {
-				
+
 				if (rhs.size() > 2) {
 					int suffix = 1;
 					String newLhs = lhs;

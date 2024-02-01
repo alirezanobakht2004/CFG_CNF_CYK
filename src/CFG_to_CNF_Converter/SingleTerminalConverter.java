@@ -1,16 +1,17 @@
 package CFG_to_CNF_Converter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
 public class SingleTerminalConverter {
-    private HashMap<String,ArrayList<ArrayList<String>>> grammar;
+	private HashMap<String, ArrayList<ArrayList<String>>> grammar;
 
-	public SingleTerminalConverter(HashMap<String,ArrayList<ArrayList<String>>> grammar) {
+	public SingleTerminalConverter(HashMap<String, ArrayList<ArrayList<String>>> grammar) {
 		this.grammar = grammar;
 	}
 
-    public HashMap<String,ArrayList<ArrayList<String>>> convertTerminal() {
+	public HashMap<String, ArrayList<ArrayList<String>>> convertTerminal() {
 		HashMap<String, String> handledTerminals = new HashMap<>();
 		HashSet<String> varsToDelete = new HashSet<>();
 		String prod;
@@ -26,7 +27,6 @@ public class SingleTerminalConverter {
 				}
 			}
 		}
-
 
 		HashMap<String, ArrayList<ArrayList<String>>> newGrammar = new HashMap<>();
 		ArrayList<ArrayList<String>> newRhs;
