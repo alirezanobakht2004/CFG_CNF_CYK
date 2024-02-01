@@ -7,6 +7,9 @@ public class Main {
     public static void main(String[] args) {
         HashMap<String, ArrayList<ArrayList<String>>> grammar = new HashMap<>();
         Scanner input = new Scanner(System.in);
+        System.out.println("\033[1;96m"+"Enter the string you want to check for production:"+"\033[0m");
+        String word = input.nextLine();
+        System.out.println("\033[1;93m"+"Enter your Context-Free-Grammar:"+"\033[0m");
         String line;
         while (input.hasNextLine()) {
             line = input.nextLine();
@@ -18,7 +21,7 @@ public class Main {
                 grammar.computeIfAbsent(production.getKey(), k -> new ArrayList<>()).add(production.getValue());
             }
         }
-        printGrammar(grammar, "Parsed input grammar: ");
+        printGrammar(grammar, "\033[1;33m"+"Parsed input grammar: "+"\033[0m");
         Converter converter = new Converter(grammar);
         HashMap<String, ArrayList<ArrayList<String>>> cnfGrammar = converter.convertToCNF();
         printGrammar(cnfGrammar, "Grammar in CNF:");
@@ -43,8 +46,6 @@ public class Main {
         }
         ArrayList<String> Non_Terminal_List = new ArrayList<>(cnfGrammar.keySet());
         System.out.println("\nEnter the word you want to check in Chomsky's Normal Grammar:");
-        Scanner input1 = new Scanner(System.in);
-        String word = input1.nextLine();
         CYK cyk = new CYK(word, "S", Terminal_List, Non_Terminal_List, cykInputGrammar(cnfGrammar));
         cyk.doSteps();
     }
